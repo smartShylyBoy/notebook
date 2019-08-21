@@ -1,0 +1,12 @@
+Q：DtypeWarning: Columns (1,5,7,16,......) have mixed types. Specify dtype option on import or set low_memory=False. 
+A：
+意思就是：列1,5,7,16....的数据类型不一样。
+调试进去看了看，发现pandas在读取的时候确实把同一列数据中同一
+个数值识别为不同的类型，比如：2000行第3列值为0的数据识别为Int类型，
+而在4000行第3列值为0的数据识别为str类型。
+
+解决方案有两个：
+# 1.设置read_csv的dtype参数，指定字段的数据类型
+pd.read_csv(sio, dtype={"user_id": int, "username": object})
+# 2.设置read_csv的low_memory参数为False
+ pd.read_csv(sio, low_memory=False})
